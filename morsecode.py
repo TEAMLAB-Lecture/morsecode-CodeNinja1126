@@ -304,19 +304,22 @@ def encoding_sentence(english_sentence):
     """
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
-    result = ''
-    normalized_sentence = get_cleaned_english_sentence(english_sentence)
-    ' '.join(normalized_sentence.split())
-    # 문자열 정규화 띄어쓰기 하나로 통일
+    result = []
 
-    for ch in normalized_sentence:
-        if ch == ' ':
-            result += '  '
-        else:
-            result += encoding_character(ch)
+    normalized_sentence = get_cleaned_english_sentence(english_sentence)
+    # 문자열 정규화 띄어쓰기 하나로 통일
+    
+    word_list = normalized_sentence.split()
+    for word in word_list:
+        morse_list = []
+        
+        for ch in word:
+            morse_list.append(encoding_character(ch))
+        
+        result.append(' '.join(morse_list))
     # 모스 코드 변환
 
-    return result
+    return '  '.join(result)
     # ==================================
 
 
