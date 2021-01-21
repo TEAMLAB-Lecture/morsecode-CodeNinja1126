@@ -54,7 +54,7 @@ def is_help_command(user_input):
     result = None
     temp_str = user_input.lower()
     
-    if user_input == 'h' or user_input == 'help':
+    if temp_str == 'h' or temp_str == 'help':
         result = True
     else:
         result = False
@@ -92,7 +92,7 @@ def is_validated_english_sentence(user_input):
     validated_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!? '
 
     for ch in user_input:
-        if validated_list.find(ch) = -1:
+        if validated_list.find(ch) == -1:
             return False
     # 알파벳과 문장부호 공백으로만 이루어졌는지 확인
     
@@ -135,7 +135,7 @@ def is_validated_morse_code(user_input):
     validated_list = '-. '
     
     for ch in user_input:
-        if validate_list.find(ch) = -1:
+        if validated_list.find(ch) == -1:
             return False
     # 알파벳이 모스부호로만 이루어졌는지 확인
 
@@ -175,7 +175,7 @@ def get_cleaned_english_sentence(raw_english_sentence):
     punctuation_list = '.,!?'
 
     for ch in raw_english_sentence:
-        if punctuation_list.find(ch) = -1:
+        if punctuation_list.find(ch) != -1:
             continue
         result += ch
 
@@ -241,7 +241,7 @@ def encoding_character(english_character):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     morse_code_dict = get_morse_code_dict()
-    result = morse_code_dict[english_character]
+    result = morse_code_dict[english_character.upper()]
     
     return result
     # ==================================
@@ -267,12 +267,20 @@ def decoding_sentence(morse_sentence):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     result = ''
-    word_list = morse_sentence.split()
-    
-    for word in word_list:
-        result += decoding_character(word)
+    word_list = morse_sentence.split('  ')
+    # '  ' 띄어쓰기 나누기
 
-    return result
+    for word in word_list:
+        alpha_list = ''
+        alpha_list = word.split()
+
+        for ch in alpha_list:
+            result += decoding_character(ch)
+
+        result += ' '
+
+    return result[:-1]
+    # 마지막 띄어쓰기 제거
     # ==================================
 
 
@@ -303,7 +311,7 @@ def encoding_sentence(english_sentence):
 
     for ch in normalized_sentence:
         if ch == ' ':
-            result += ' '
+            result += '  '
         else:
             result += encoding_character(ch)
     # 모스 코드 변환
@@ -322,7 +330,7 @@ def main():
         # 0 입력시 종료
 
         elif is_help_command(user_sentence):
-            get_help_message()
+            print(get_help_message())
             continue
         # help 입력시 help_message 출력력
 
